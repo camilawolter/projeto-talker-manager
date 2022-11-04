@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { readFile, writeFile, newId, updateTalker } = require('./utils/talkers');
+const { readFile, writeFile, newId, updateTalker, deleteTalker } = require('./utils/talkers');
 const generatorToken = require('./utils/generatorToken');
 const { validateEmail, validatePassword } = require('./middlewares/validationLogin');
 const validateToken = require('./middlewares/validationToken');
@@ -51,4 +51,10 @@ app.put('/talker/:id', validateToken, validateDataTalkers, async (req, res) => {
   const newTalker = { id: Number(id), ...dataTalker };
   await updateTalker(newTalker);
   return res.status(200).json(newTalker);
+});
+
+app.delete('/talker/:id', validateToken, async (req, res) => {
+  const { id } = req.params;
+  await deleteTalker(id);
+  return res.status(204).end();
 });
