@@ -9,6 +9,19 @@ const readFile = async () => {
   return response;
 };
 
+const writeFile = async (newTalker) => {
+  const talkers = await readFile();
+  await fs.writeFile(talkerPath, JSON.stringify([...talkers, newTalker]));
+};
+
+const newId = async () => {
+  const talkers = await readFile();
+  const nextId = Math.max(...talkers.map(({ id }) => id)) + 1;
+  return nextId;
+};
+
 module.exports = {
   readFile,
+  writeFile,
+  newId,
 };
