@@ -11,7 +11,7 @@ const readFile = async () => {
 
 const writeFile = async (newTalker) => {
   const talkers = await readFile();
-  await fs.writeFile(talkerPath, JSON.stringify([...talkers, newTalker], 2));
+  await fs.writeFile(talkerPath, JSON.stringify([...talkers, newTalker], null, 2));
 };
 
 const newId = async () => {
@@ -26,13 +26,13 @@ const updateTalker = async (updTalker) => {
     if (talk.id === updTalker.id) return updTalker;
     return talk;
   });
-  await fs.writeFile(talkerPath, JSON.stringify(newDataTalker, 2));
+  await fs.writeFile(talkerPath, JSON.stringify(newDataTalker, null, 2));
 };
 
 const deleteTalker = async (id) => {
   const talkers = await readFile();
   const newDataTalker = talkers.filter((talker) => talker.id !== Number(id));
-  await fs.writeFile(talkerPath, JSON.stringify(newDataTalker, 2));
+  await fs.writeFile(talkerPath, JSON.stringify(newDataTalker, null, 2));
 };
 
 module.exports = {
