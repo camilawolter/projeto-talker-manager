@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { readFile, writeFile, newId, updateTalker, deleteTalker } = require('./utils/talkers');
+const { readFile, writeFile, newId, updateTalker, 
+  deleteTalker, searchTalkers } = require('./utils/talkers');
 const generatorToken = require('./utils/generatorToken');
 const { validateEmail, validatePassword } = require('./middlewares/validationLogin');
 const validateToken = require('./middlewares/validationToken');
@@ -24,6 +25,12 @@ app.listen(PORT, () => {
 app.get('/talker', async (_req, res) => {
     const talker = await readFile();
     return res.status(200).json(talker);
+});
+
+app.get('/talker/search', validateToken, async (req, res) => {
+  const { q } = req.query;
+  const dataTalkers = await searchTalkers(q);
+  return res.status(200).json(dataTalkers);
 });
 
 app.get('/talker/:id', async (req, res) => {
